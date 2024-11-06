@@ -2,9 +2,15 @@
 import { ref } from 'vue';
 
 const grid = ref(Array(9).fill(""));
+const currentPlayer = ref("X");
 
 function handleClick(i: number) {
   console.log(`cell ${i} clicked`);
+
+  if (grid.value[i] === "") {
+    grid.value[i] = currentPlayer.value;
+    currentPlayer.value = currentPlayer.value === "X" ? "O" : "X";
+  }
 };
 
 </script>
@@ -38,7 +44,7 @@ function handleClick(i: number) {
   border: 1px solid #ccc;
   cursor: pointer;
   font-size: 18px;
-  color: aqua;
+  background-color: aqua;
 }
 
 </style>
