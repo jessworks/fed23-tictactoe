@@ -8,6 +8,10 @@ import TicTacToe from './components/TicTacToe.vue';
  <TicTacToe></TicTacToe>
 </template>
 
-<style scoped>
+<style>
+body {
+    background-color: #edd4b6;
+    color: #342b25;
+}
 
 </style>

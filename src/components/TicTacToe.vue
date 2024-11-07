@@ -16,8 +16,6 @@ const confirmNames = () => {
 };
 
 const handleClick = (i: number) => {
-  console.log(`cell ${i} clicked`);
-
   if (grid.value[i] === "") {
     grid.value[i] = currentPlayer.value;
     currentPlayer.value = currentPlayer.value === "X" ? "O" : "X";
@@ -37,49 +35,87 @@ const resetGame = () => {
 
 <template>
   <div v-if="!namesConfirmed" class="add-players">
-    <label>
+    <label class="player-names">
       Player X:
       <input v-model="playerX" />
     </label>
-    <label>
+    <label class="player-names">
       Player O:
       <input v-model="playerO" />
     </label>
-    <button @click="confirmNames">Let's play</button>
+    <button @click="confirmNames">Let's Play</button>
   </div>
 
-  <p v-if="namesConfirmed">{{ currentPlayer === "X" ? playerX : playerO }}'s turn </p>
+  <p v-if="namesConfirmed" class="player-turn">{{ currentPlayer === "X" ? playerX : playerO }}'s turn </p>
 
-  <div class="grid">
-    <div v-for="(cell, i) in grid" :key="i" class="cell" @click="handleClick(i)">
-      {{ cell }}
+  <div class="grid-container">
+    <div class="grid">
+      <div v-for="(cell, i) in grid" :key="i" class="cell" @click="handleClick(i)">
+        {{ cell }}
+      </div>
     </div>
   </div>
 
-  <button @click="resetGame">reset game</button>
+  <button @click="resetGame">Reset Game</button>
 
 </template>
 
 
 <style scoped>
+.player-names {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+input {
+  font-size: 1.3rem;
+  background-color: #ffefcd;
+  border: 2px solid #342b25;
+  border-radius: 6px;
+  margin: 5px;
+}
+
+button {
+  color: #342b25;
+  background-color:#cdede8;
+  margin: 20px;
+  border: 2px solid #5a4b42;
+}
+
+.player-turn {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.grid-container {
+  display: flex;
+  justify-content: center;
+}
+
 .grid {
+
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-  width: 320px;
-  border: 10px solid blueviolet;
-  background-color: blueviolet;
+  width: 230px;
+  border: 10px solid #5a4b42;
+  border-radius: 9px;
+  margin: 10px;
+  background-color: #5a4b42;
 }
 
 .cell {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100px;
-  border: 1px solid #ccc;
+  height: 70px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 18px;
-  background-color: aqua;
+  font-size: 2rem; 
+  font-weight: bold;
+  color: #184550;
+  background-color: #ffefcd;
 }
 
 </style>
