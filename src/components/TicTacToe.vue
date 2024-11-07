@@ -6,7 +6,7 @@ const currentPlayer = ref("X");
 const playerX = ref("");
 const playerO = ref("");
 
-function handleClick(i: number) {
+const handleClick = (i: number) => {
   console.log(`cell ${i} clicked`);
 
   if (grid.value[i] === "") {
@@ -15,7 +15,7 @@ function handleClick(i: number) {
   }
 };
 
-function resetGame() {
+const resetGame = () => {
   grid.value = Array(9).fill("");
   currentPlayer.value = "X";
 }
