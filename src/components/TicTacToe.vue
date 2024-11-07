@@ -46,18 +46,19 @@ const resetGame = () => {
     <button @click="confirmNames">Let's Play</button>
   </div>
 
-  <p v-if="namesConfirmed" class="player-turn">{{ currentPlayer === "X" ? playerX : playerO }}'s turn </p>
+  <div v-if="namesConfirmed" class="game-container">
+    <p class="player-turn">{{ currentPlayer === "X" ? playerX : playerO }}'s turn </p>
 
-  <div class="grid-container">
-    <div class="grid">
-      <div v-for="(cell, i) in grid" :key="i" class="cell" @click="handleClick(i)">
-        {{ cell }}
+    <div class="grid-container">
+      <div class="grid">
+        <div v-for="(cell, i) in grid" :key="i" class="cell" @click="handleClick(i)">
+          {{ cell }}
+        </div>
       </div>
     </div>
+
+    <button @click="resetGame">Reset Game</button>
   </div>
-
-  <button @click="resetGame">Reset Game</button>
-
 </template>
 
 
