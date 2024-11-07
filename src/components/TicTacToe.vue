@@ -13,6 +13,11 @@ function handleClick(i: number) {
   }
 };
 
+function resetGame() {
+  grid.value = Array(9).fill("");
+  currentPlayer.value = "X";
+}
+
 </script>
 
 
@@ -22,6 +27,8 @@ function handleClick(i: number) {
       {{ cell }}
     </div>
   </div>
+
+  <button @click="resetGame">reset game</button>
 
 </template>
 
