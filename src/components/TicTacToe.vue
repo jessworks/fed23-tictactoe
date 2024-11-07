@@ -5,6 +5,15 @@ const grid = ref(Array(9).fill(""));
 const currentPlayer = ref("X");
 const playerX = ref("");
 const playerO = ref("");
+const namesConfirmed = ref(false);
+
+const confirmNames = () => {
+  if (playerX.value && playerO.value) {
+    namesConfirmed.value = true;
+  } else {
+    alert('Please enter names for PlayerX and PlayerO.')
+  }
+};
 
 const handleClick = (i: number) => {
   console.log(`cell ${i} clicked`);
@@ -18,13 +27,16 @@ const handleClick = (i: number) => {
 const resetGame = () => {
   grid.value = Array(9).fill("");
   currentPlayer.value = "X";
+  playerX.value = "";
+  playerO.value = "";
+  namesConfirmed.value = false;
 }
 
 </script>
 
 
 <template>
-  <div class="add-players">
+  <div v-if="!namesConfirmed" class="add-players">
     <label>
       Player X:
       <input v-model="playerX" />
@@ -33,9 +45,10 @@ const resetGame = () => {
       Player O:
       <input v-model="playerO" />
     </label>
+    <button @click="confirmNames">Let's play</button>
   </div>
 
-  <p>{{ currentPlayer === "X" ? playerX : playerO }}'s turn </p>
+  <p v-if="namesConfirmed">{{ currentPlayer === "X" ? playerX : playerO }}'s turn </p>
 
   <div class="grid">
     <div v-for="(cell, i) in grid" :key="i" class="cell" @click="handleClick(i)">
