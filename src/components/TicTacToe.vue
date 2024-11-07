@@ -3,6 +3,8 @@ import { ref } from 'vue';
 
 const grid = ref(Array(9).fill(""));
 const currentPlayer = ref("X");
+const playerX = ref("");
+const playerO = ref("");
 
 function handleClick(i: number) {
   console.log(`cell ${i} clicked`);
@@ -22,6 +24,19 @@ function resetGame() {
 
 
 <template>
+  <div class="add-players">
+    <label>
+      Player X:
+      <input v-model="playerX" />
+    </label>
+    <label>
+      Player O:
+      <input v-model="playerO" />
+    </label>
+  </div>
+
+  <p>{{ currentPlayer === "X" ? playerX : playerO }}'s turn </p>
+
   <div class="grid">
     <div v-for="(cell, i) in grid" :key="i" class="cell" @click="handleClick(i)">
       {{ cell }}
