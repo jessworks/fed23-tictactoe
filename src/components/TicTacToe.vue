@@ -6,6 +6,8 @@ const currentPlayer = ref("X");
 const playerX = ref("");
 const playerO = ref("");
 const namesConfirmed = ref(false);
+const winner = ref<string | null>(null); // <string | null 
+const draw = ref(false);
 
 const confirmNames = () => {
   if (playerX.value && playerO.value) {
@@ -16,10 +18,33 @@ const confirmNames = () => {
 };
 
 const handleClick = (i: number) => {
-  if (grid.value[i] === "") {
+  if (!winner.value && !draw.value && grid.value[i] === "") {
     grid.value[i] = currentPlayer.value;
+    checkWinner();
     currentPlayer.value = currentPlayer.value === "X" ? "O" : "X";
   }
+};
+
+const winningCombos = [
+  [0, 1, 2], [3, 4, 5], [6, 7, 8],
+  [0, 3, 6], [1, 4, 7], [2, 5, 8],
+  [0, 4, 8], [2, 4, 6]
+];
+
+const checkWinner = () => {
+  for (const [a, b, c] of winningCombos) {
+    if (
+      grid.value[a] &&
+      grid.value[a] === grid.value[b] &&
+      grid.value[a] === grid.value[c]
+    ) {
+      winner.value =  grid.value[a] === "X" ? playerX.value : playerO.value;
+      return;
+    }
+  };
+  if (grid.value.every(cell => cell !== "")) {
+  draw.value = true;
+  };
 };
 
 const resetGame = () => {
@@ -28,6 +53,8 @@ const resetGame = () => {
   playerX.value = "";
   playerO.value = "";
   namesConfirmed.value = false;
+  winner.value = null;
+  draw.value = false;
 }
 
 </script>
@@ -47,11 +74,14 @@ const resetGame = () => {
   </div>
 
   <div v-if="namesConfirmed" class="game-container">
-    <p class="player-turn">{{ currentPlayer === "X" ? playerX : playerO }}'s turn </p>
+    <p v-if="!winner && !draw" class="player-turn">{{ currentPlayer === "X" ? playerX : playerO }}'s turn </p>
+    <p v-else-if="winner" class="winner-msg">{{ winner }} wins</p>
+    <p v-else="draw && !winner" class="draw-msg">It's a draw</p>
 
     <div class="grid-container">
       <div class="grid">
-        <div v-for="(cell, i) in grid" :key="i" class="cell" @click="handleClick(i)">
+        <div v-for="(cell, i) in grid" :key="i" class="cell" @click="handleClick(i)"
+        :class="{'cell-disabled' : winner}" >
           {{ cell }}
         </div>
       </div>
